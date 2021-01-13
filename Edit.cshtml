@@ -1,0 +1,122 @@
+﻿@model SVEUCILISNA_KNJIZNICA.Models.Zaliha
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+    <html>
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://kit.fontawesome.com/94e277c9e1.js" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Roboto+Slab&display=swap" rel="stylesheet" />
+        <style>
+
+
+            h6 {
+                text-align: center;
+                padding-top: 10px;
+                font-size: 20px;
+            }
+
+            .form-control {
+                margin: 0 auto;
+                float: none;
+            }
+
+            .form-group {
+                text-align: center;
+            }
+
+            .btn-primary {
+                background-color: brown;
+                border-color: brown;
+            }
+        .col-sm-6 {
+            border-radius: 10px 10px;
+            font-family: 'Roboto Slab';
+        }
+        </style>
+    </head>
+    <body>
+
+        <div class="jumbotron" style="margin-bottom:0;background-image: url(../../book2.png);height:200px">
+
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-sm-12" style="background-color:#f4f4d7;">
+                    <h2 style="color:#663300;text-align:center;font-family:Cinzel;font-size:50px">Sveučilišna knjižnica u Puli</h2>
+                    <h5 style="color:#663300;text-align:center;font-family:Roboto Sla">Sustav za pretragu knjiga Sveučilišne knjižnice u Puli</h5>
+
+                    <div class="col-sm-3">
+
+                    </div>
+                    <div class="col-sm-6 col-centered" style="background-color:#d2a679;">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+                                <h4>Zaliha</h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ZalihaID)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Knjiga.Barkod, "Barkod", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.DropDownList("Barkod", null, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Knjiga.Barkod, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.StanjeZaliha, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+                                        @Html.EditorFor(model => model.StanjeZaliha, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.StanjeZaliha, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                   
+                        
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Spremi</button>
+                                <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index", "Knjiznicar")';return false;"><i class="fas fa-times"></i> Odustani</button>
+
+                            </div>
+                        </div>
+                    </div>
+                        }
+
+                    </div>
+
+
+                </div>
+
+
+
+            </div>
+
+            <div class="col-sm-3"></div>
+
+
+
+        </div>
+        </div>
+        </div>
+
+
+
+    </body>
+    </html>

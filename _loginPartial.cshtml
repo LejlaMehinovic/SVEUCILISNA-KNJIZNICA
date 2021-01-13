@@ -1,0 +1,33 @@
+﻿
+@if (Session["Email"] == null)
+{
+ 
+
+
+    <ul class="nav navbar-nav navbar-right">
+        <li style="color:white;font-family:Roboto Slab">
+            @Html.ActionLink("Registracija", "Register", "Account", null, new {@style="color:white" })
+        </li>
+
+        <li style="color:white;font-family:Roboto Slab">
+            @Html.ActionLink("Prijava", "Login", "Account", null, new {@style="color:white" })
+        </li>
+
+    </ul>
+}
+
+else
+{
+
+    <ul class="nav navbar-nav navbar-right">
+        <li style="color:white;font-family:Roboto Slab">
+            @Html.ActionLink(" " +
+                             Session["Email"], "Index", "Home", null, new {@style="color:white" })
+        </li>
+
+        <li style="color:white;font-family:Roboto Slab">
+            @Html.ActionLink("Odjava", "LogOut", "Account", null, new {@style="color:white" })
+        </li>
+
+    </ul>
+}

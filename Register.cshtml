@@ -1,0 +1,153 @@
+﻿@model SVEUCILISNA_KNJIZNICA.ViewModels.KorisnikRegistracija
+@{
+    ViewBag.Title = "Registracija";
+}
+
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/94e277c9e1.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Cinzel:400,700|Roboto+Slab&display=swap" rel="stylesheet" />
+    <style>
+
+        h6 {
+            text-align: center;
+            padding-top: 10px;
+            font-size: 20px;
+        }
+
+        .form-control {
+            margin: 0 auto;
+            float: none;
+        }
+
+        .form-group {
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: brown;
+            border-color: brown;
+        }
+
+        .icon-success {
+            color: brown;
+        }
+            .col-sm-6 {
+                border-radius: 10px 10px;
+                font-family:'Roboto Slab';
+            }
+    </style>
+</head>
+<body>
+
+    <div class="jumbotron" style="margin-bottom:0;background-image: url(../../book2.png);height:200px"></div>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12" style="background-color:#f4f4d7;">
+                <h2 style="color:#663300;text-align:center;font-family:Cinzel;font-size:50px">Sveučilišna knjižnica u Puli</h2>
+                <h4 style="color:#663300;text-align:center;font-family:Roboto Slab">Sustav za pretragu knjiga Sveučilišne knjižnice u Puli</h4>
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                {
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6 col-centered" style="background-color:#d2a679;">
+
+                        <form>
+                            <div class="form-group">
+                                <h6 style="color:#663300">Registriraj se: </h6>
+                                <label><b> @Html.LabelFor(model => model.Ime)</b></label>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="far fa-user-circle icon-success"></i></span>
+                                                @Html.TextBoxFor(model => Model.Ime, new { @class = "form-control" })
+
+                                            </div>
+                                            <label>  @Html.ValidationMessageFor(model => model.Ime, null, new { @class = "  text-danger " })</label><br />
+                                        </div>
+                                    </div>
+                                </div>                              
+                            </div>
+
+                            <div class="form-group">
+                                <label><b> @Html.LabelFor(model => model.Prezime)</b></label>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="far fa-user-circle icon-success"></i></span>
+                                                @Html.TextBoxFor(model => Model.Prezime, new { @class = "form-control" })
+                                            </div>
+                                            <label>@Html.ValidationMessageFor(model => model.Prezime, null, new { @class = "  text-danger " })</label><br />
+                                        </div>
+                                    </div>
+                                </div>           
+                            </div>
+
+                            <div class="form-group">
+                                <label><b> @Html.LabelFor(model => model.Mejl)</b></label>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="far fa-envelope icon-success"></i></span>
+                                                @Html.TextBoxFor(model => Model.Mejl, new { @class = "form-control" })
+                                            </div>
+                                            <label> @Html.ValidationMessageFor(model => model.Mejl, null, new { @class = "text-danger" })</label><br />
+                                        </div>
+                                    </div>
+                                </div>                            
+                            </div>
+
+                            <div class="form-group">
+                                <label><b> @Html.LabelFor(model => model.Lozinka)</b></label>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fas fa-lock icon-success"></i></span>
+                                                @Html.PasswordFor(model => Model.Lozinka, new { @class = "form-control" })
+                                            </div>
+                                            <label>@Html.ValidationMessageFor(model => model.Lozinka, null, new { @class = "text-danger" })  </label><br />
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <small id="emailHelp" class="form-text text-muted" style="color:brown">Naša preporuka je da lozinka sadrži barem jedno veliko slovo, jedno malo slovo i jedan broj.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label><b> @Html.LabelFor(model => model.PotvrdiLozinku)</b></label>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fas fa-lock icon-success"></i></span>
+                                                @Html.PasswordFor(model => Model.PotvrdiLozinku, new { @class = "form-control" })
+                                            </div>
+                                            <label>@Html.ValidationMessageFor(model => model.PotvrdiLozinku, null, new { @class = " text-danger " })  </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Registriraj se</button>
+                                <label> @Html.ValidationMessage("Error", null, new { @class = " text-danger" })</label>
+                            </div>
+                        </form>
+                    </div>
+                }
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
