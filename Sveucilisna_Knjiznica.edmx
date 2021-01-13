@@ -1,0 +1,487 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ModelSveucilisnaKnjiznica.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BrojDokumenta">
+          <Key>
+            <PropertyRef Name="BrojDokumentaID" />
+          </Key>
+          <Property Name="BrojDokumentaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NazivDokumenta" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TransakcijaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Knjiga">
+          <Key>
+            <PropertyRef Name="KnjigaID" />
+          </Key>
+          <Property Name="KnjigaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Naziv" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Autor" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="Barkod" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ISBN" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="GodIzdanja" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="KorisnikID" />
+          </Key>
+          <Property Name="KorisnikID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ime" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Prezime" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Lozinka" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Mejl" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="UlogaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transakcija">
+          <Key>
+            <PropertyRef Name="TransakcijaID" />
+          </Key>
+          <Property Name="TransakcijaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DatumTransakcije" Type="date" Nullable="false" />
+          <Property Name="KorisnikID" Type="int" Nullable="false" />
+          <Property Name="KnjigaID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transakcija_Audit">
+          <Key>
+            <PropertyRef Name="TransakcijaID" />
+          </Key>
+          <Property Name="TransakcijaID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Uloga">
+          <Key>
+            <PropertyRef Name="UlogaID" />
+          </Key>
+          <Property Name="UlogaID" Type="int" Nullable="false" />
+          <Property Name="Naziv" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zaliha">
+          <Key>
+            <PropertyRef Name="ZalihaID" />
+          </Key>
+          <Property Name="ZalihaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KnjigaID" Type="int" Nullable="false" />
+          <Property Name="StanjeZaliha" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_BrojDokumenta_Transakcija">
+          <End Role="Transakcija" Type="Self.Transakcija" Multiplicity="1" />
+          <End Role="BrojDokumenta" Type="Self.BrojDokumenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transakcija">
+              <PropertyRef Name="TransakcijaID" />
+            </Principal>
+            <Dependent Role="BrojDokumenta">
+              <PropertyRef Name="TransakcijaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Korisnik_Uloga">
+          <End Role="Uloga" Type="Self.Uloga" Multiplicity="1" />
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uloga">
+              <PropertyRef Name="UlogaID" />
+            </Principal>
+            <Dependent Role="Korisnik">
+              <PropertyRef Name="UlogaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Audit_Transakcija">
+          <End Role="Transakcija" Type="Self.Transakcija" Multiplicity="1" />
+          <End Role="Transakcija_Audit" Type="Self.Transakcija_Audit" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Transakcija">
+              <PropertyRef Name="TransakcijaID" />
+            </Principal>
+            <Dependent Role="Transakcija_Audit">
+              <PropertyRef Name="TransakcijaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Audit_Transakcija_Audit">
+          <End Role="Transakcija_Audit" Type="Self.Transakcija_Audit" Multiplicity="1" />
+          <End Role="Transakcija_Audit1" Type="Self.Transakcija_Audit" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Transakcija_Audit">
+              <PropertyRef Name="TransakcijaID" />
+            </Principal>
+            <Dependent Role="Transakcija_Audit1">
+              <PropertyRef Name="TransakcijaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Knjiga">
+          <End Role="Knjiga" Type="Self.Knjiga" Multiplicity="1" />
+          <End Role="Transakcija" Type="Self.Transakcija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Knjiga">
+              <PropertyRef Name="KnjigaID" />
+            </Principal>
+            <Dependent Role="Transakcija">
+              <PropertyRef Name="KnjigaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Korisnik">
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="1" />
+          <End Role="Transakcija" Type="Self.Transakcija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="KorisnikID" />
+            </Principal>
+            <Dependent Role="Transakcija">
+              <PropertyRef Name="KorisnikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Zaliha_Knjiga">
+          <End Role="Knjiga" Type="Self.Knjiga" Multiplicity="1" />
+          <End Role="Zaliha" Type="Self.Zaliha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Knjiga">
+              <PropertyRef Name="KnjigaID" />
+            </Principal>
+            <Dependent Role="Zaliha">
+              <PropertyRef Name="KnjigaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelSveucilisnaKnjiznicaStoreContainer">
+          <EntitySet Name="BrojDokumenta" EntityType="Self.BrojDokumenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Knjiga" EntityType="Self.Knjiga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Korisnik" EntityType="Self.Korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transakcija" EntityType="Self.Transakcija" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transakcija_Audit" EntityType="Self.Transakcija_Audit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uloga" EntityType="Self.Uloga" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zaliha" EntityType="Self.Zaliha" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BrojDokumenta_Transakcija" Association="Self.FK_BrojDokumenta_Transakcija">
+            <End Role="Transakcija" EntitySet="Transakcija" />
+            <End Role="BrojDokumenta" EntitySet="BrojDokumenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Korisnik_Uloga" Association="Self.FK_Korisnik_Uloga">
+            <End Role="Uloga" EntitySet="Uloga" />
+            <End Role="Korisnik" EntitySet="Korisnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Audit_Transakcija" Association="Self.FK_Transakcija_Audit_Transakcija">
+            <End Role="Transakcija" EntitySet="Transakcija" />
+            <End Role="Transakcija_Audit" EntitySet="Transakcija_Audit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Audit_Transakcija_Audit" Association="Self.FK_Transakcija_Audit_Transakcija_Audit">
+            <End Role="Transakcija_Audit" EntitySet="Transakcija_Audit" />
+            <End Role="Transakcija_Audit1" EntitySet="Transakcija_Audit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Knjiga" Association="Self.FK_Transakcija_Knjiga">
+            <End Role="Knjiga" EntitySet="Knjiga" />
+            <End Role="Transakcija" EntitySet="Transakcija" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Korisnik" Association="Self.FK_Transakcija_Korisnik">
+            <End Role="Korisnik" EntitySet="Korisnik" />
+            <End Role="Transakcija" EntitySet="Transakcija" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Zaliha_Knjiga" Association="Self.FK_Zaliha_Knjiga">
+            <End Role="Knjiga" EntitySet="Knjiga" />
+            <End Role="Zaliha" EntitySet="Zaliha" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ModelSveucilisnaKnjiznica" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Knjiga">
+          <Key>
+            <PropertyRef Name="KnjigaID" />
+          </Key>
+          <Property Name="KnjigaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Autor" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Barkod" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ISBN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="GodIzdanja" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Zalihas" Relationship="Self.FK_Zaliha_Knjiga" FromRole="Knjiga" ToRole="Zaliha" />
+          <NavigationProperty Name="Transakcijas" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Knjiga" FromRole="Knjiga" ToRole="Transakcija" />
+        </EntityType>
+        <EntityType Name="Korisnik">
+          <Key>
+            <PropertyRef Name="KorisnikID" />
+          </Key>
+          <Property Name="KorisnikID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Lozinka" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Mejl" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UlogaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Uloga" Relationship="Self.FK_Korisnik_Uloga" FromRole="Korisnik" ToRole="Uloga" />
+          <NavigationProperty Name="Transakcijas" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Korisnik" FromRole="Korisnik" ToRole="Transakcija" />
+        </EntityType>
+        <EntityType Name="Uloga">
+          <Key>
+            <PropertyRef Name="UlogaID" />
+          </Key>
+          <Property Name="UlogaID" Type="Int32" Nullable="false" />
+          <Property Name="Naziv" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Korisniks" Relationship="Self.FK_Korisnik_Uloga" FromRole="Uloga" ToRole="Korisnik" />
+        </EntityType>
+        <EntityType Name="Zaliha">
+          <Key>
+            <PropertyRef Name="ZalihaID" />
+          </Key>
+          <Property Name="ZalihaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KnjigaID" Type="Int32" Nullable="false" />
+          <Property Name="StanjeZaliha" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Knjiga" Relationship="Self.FK_Zaliha_Knjiga" FromRole="Zaliha" ToRole="Knjiga" />
+        </EntityType>
+        <Association Name="FK_Zaliha_Knjiga">
+          <End Role="Knjiga" Type="Self.Knjiga" Multiplicity="1" />
+          <End Role="Zaliha" Type="Self.Zaliha" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Knjiga">
+              <PropertyRef Name="KnjigaID" />
+            </Principal>
+            <Dependent Role="Zaliha">
+              <PropertyRef Name="KnjigaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Korisnik_Uloga">
+          <End Role="Uloga" Type="Self.Uloga" Multiplicity="1" />
+          <End Role="Korisnik" Type="Self.Korisnik" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uloga">
+              <PropertyRef Name="UlogaID" />
+            </Principal>
+            <Dependent Role="Korisnik">
+              <PropertyRef Name="UlogaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Knjigas" EntityType="Self.Knjiga" />
+          <EntitySet Name="Korisniks" EntityType="Self.Korisnik" />
+          <EntitySet Name="Ulogas" EntityType="Self.Uloga" />
+          <EntitySet Name="Zalihas" EntityType="Self.Zaliha" />
+          <AssociationSet Name="FK_Zaliha_Knjiga" Association="Self.FK_Zaliha_Knjiga">
+            <End Role="Knjiga" EntitySet="Knjigas" />
+            <End Role="Zaliha" EntitySet="Zalihas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Korisnik_Uloga" Association="Self.FK_Korisnik_Uloga">
+            <End Role="Uloga" EntitySet="Ulogas" />
+            <End Role="Korisnik" EntitySet="Korisniks" />
+          </AssociationSet>
+          <EntitySet Name="BrojDokumentas" EntityType="ModelSveucilisnaKnjiznica.BrojDokumenta" />
+          <EntitySet Name="Transakcijas" EntityType="ModelSveucilisnaKnjiznica.Transakcija" />
+          <AssociationSet Name="FK_BrojDokumenta_Transakcija" Association="ModelSveucilisnaKnjiznica.FK_BrojDokumenta_Transakcija">
+            <End Role="Transakcija" EntitySet="Transakcijas" />
+            <End Role="BrojDokumenta" EntitySet="BrojDokumentas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Knjiga" Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Knjiga">
+            <End Role="Knjiga" EntitySet="Knjigas" />
+            <End Role="Transakcija" EntitySet="Transakcijas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Korisnik" Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Korisnik">
+            <End Role="Korisnik" EntitySet="Korisniks" />
+            <End Role="Transakcija" EntitySet="Transakcijas" />
+          </AssociationSet>
+          <EntitySet Name="Transakcija_Audit" EntityType="ModelSveucilisnaKnjiznica.Transakcija_Audit" />
+          <AssociationSet Name="FK_Transakcija_Audit_Transakcija" Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija">
+            <End Role="Transakcija" EntitySet="Transakcijas" />
+            <End Role="Transakcija_Audit" EntitySet="Transakcija_Audit" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transakcija_Audit_Transakcija_Audit" Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija_Audit">
+            <End Role="Transakcija_Audit" EntitySet="Transakcija_Audit" />
+            <End Role="Transakcija_Audit1" EntitySet="Transakcija_Audit" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BrojDokumenta">
+          <Key>
+            <PropertyRef Name="BrojDokumentaID" />
+          </Key>
+          <Property Name="BrojDokumentaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NazivDokumenta" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="TransakcijaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transakcija" Relationship="ModelSveucilisnaKnjiznica.FK_BrojDokumenta_Transakcija" FromRole="BrojDokumenta" ToRole="Transakcija" />
+        </EntityType>
+        <EntityType Name="Transakcija">
+          <Key>
+            <PropertyRef Name="TransakcijaID" />
+          </Key>
+          <Property Name="TransakcijaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DatumTransakcije" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="KorisnikID" Type="Int32" Nullable="false" />
+          <Property Name="KnjigaID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BrojDokumentas" Relationship="ModelSveucilisnaKnjiznica.FK_BrojDokumenta_Transakcija" FromRole="Transakcija" ToRole="BrojDokumenta" />
+          <NavigationProperty Name="Knjiga" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Knjiga" FromRole="Transakcija" ToRole="Knjiga" />
+          <NavigationProperty Name="Korisnik" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Korisnik" FromRole="Transakcija" ToRole="Korisnik" />
+          <NavigationProperty Name="Transakcija_Audit" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija" FromRole="Transakcija" ToRole="Transakcija_Audit" />
+        </EntityType>
+        <Association Name="FK_BrojDokumenta_Transakcija">
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija" Role="Transakcija" Multiplicity="1" />
+          <End Type="ModelSveucilisnaKnjiznica.BrojDokumenta" Role="BrojDokumenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transakcija">
+              <PropertyRef Name="TransakcijaID" />
+            </Principal>
+            <Dependent Role="BrojDokumenta">
+              <PropertyRef Name="TransakcijaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Knjiga">
+          <End Type="ModelSveucilisnaKnjiznica.Knjiga" Role="Knjiga" Multiplicity="1" />
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija" Role="Transakcija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Knjiga">
+              <PropertyRef Name="KnjigaID" />
+            </Principal>
+            <Dependent Role="Transakcija">
+              <PropertyRef Name="KnjigaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Korisnik">
+          <End Type="ModelSveucilisnaKnjiznica.Korisnik" Role="Korisnik" Multiplicity="1" />
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija" Role="Transakcija" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Korisnik">
+              <PropertyRef Name="KorisnikID" />
+            </Principal>
+            <Dependent Role="Transakcija">
+              <PropertyRef Name="KorisnikID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Transakcija_Audit">
+          <Key>
+            <PropertyRef Name="TransakcijaID" />
+          </Key>
+          <Property Name="TransakcijaID" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" Nullable="false" MaxLength="1" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Transakcija" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija" FromRole="Transakcija_Audit" ToRole="Transakcija" />
+          <NavigationProperty Name="Transakcija_Audit1" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija_Audit" FromRole="Transakcija_Audit" ToRole="Transakcija_Audit1" />
+          <NavigationProperty Name="Transakcija_Audit2" Relationship="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija_Audit" FromRole="Transakcija_Audit1" ToRole="Transakcija_Audit" />
+        </EntityType>
+        <Association Name="FK_Transakcija_Audit_Transakcija">
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija" Role="Transakcija" Multiplicity="1" />
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija_Audit" Role="Transakcija_Audit" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Transakcija">
+              <PropertyRef Name="TransakcijaID" />
+            </Principal>
+            <Dependent Role="Transakcija_Audit">
+              <PropertyRef Name="TransakcijaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transakcija_Audit_Transakcija_Audit">
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija_Audit" Role="Transakcija_Audit" Multiplicity="1" />
+          <End Type="ModelSveucilisnaKnjiznica.Transakcija_Audit" Role="Transakcija_Audit1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Transakcija_Audit">
+              <PropertyRef Name="TransakcijaID" />
+            </Principal>
+            <Dependent Role="Transakcija_Audit1">
+              <PropertyRef Name="TransakcijaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelSveucilisnaKnjiznicaStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Knjigas">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.Knjiga">
+              <MappingFragment StoreEntitySet="Knjiga">
+                <ScalarProperty Name="KnjigaID" ColumnName="KnjigaID" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+                <ScalarProperty Name="Autor" ColumnName="Autor" />
+                <ScalarProperty Name="Barkod" ColumnName="Barkod" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="GodIzdanja" ColumnName="GodIzdanja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Korisniks">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.Korisnik">
+              <MappingFragment StoreEntitySet="Korisnik">
+                <ScalarProperty Name="KorisnikID" ColumnName="KorisnikID" />
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="Lozinka" ColumnName="Lozinka" />
+                <ScalarProperty Name="Mejl" ColumnName="Mejl" />
+                <ScalarProperty Name="UlogaID" ColumnName="UlogaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ulogas">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.Uloga">
+              <MappingFragment StoreEntitySet="Uloga">
+                <ScalarProperty Name="UlogaID" ColumnName="UlogaID" />
+                <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Zalihas">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.Zaliha">
+              <MappingFragment StoreEntitySet="Zaliha">
+                <ScalarProperty Name="ZalihaID" ColumnName="ZalihaID" />
+                <ScalarProperty Name="KnjigaID" ColumnName="KnjigaID" />
+                <ScalarProperty Name="StanjeZaliha" ColumnName="StanjeZaliha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BrojDokumentas">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.BrojDokumenta">
+              <MappingFragment StoreEntitySet="BrojDokumenta">
+                <ScalarProperty Name="TransakcijaID" ColumnName="TransakcijaID" />
+                <ScalarProperty Name="NazivDokumenta" ColumnName="NazivDokumenta" />
+                <ScalarProperty Name="BrojDokumentaID" ColumnName="BrojDokumentaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transakcijas">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.Transakcija">
+              <MappingFragment StoreEntitySet="Transakcija">
+                <ScalarProperty Name="KnjigaID" ColumnName="KnjigaID" />
+                <ScalarProperty Name="KorisnikID" ColumnName="KorisnikID" />
+                <ScalarProperty Name="DatumTransakcije" ColumnName="DatumTransakcije" />
+                <ScalarProperty Name="TransakcijaID" ColumnName="TransakcijaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transakcija_Audit">
+            <EntityTypeMapping TypeName="ModelSveucilisnaKnjiznica.Transakcija_Audit">
+              <MappingFragment StoreEntitySet="Transakcija_Audit">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TransakcijaID" ColumnName="TransakcijaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

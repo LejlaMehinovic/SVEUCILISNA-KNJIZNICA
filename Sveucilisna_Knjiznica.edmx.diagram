@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2d1d6f15604b45d1ab560e1e6e71aaec" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.Knjiga" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.Korisnik" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.Uloga" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.Zaliha" Width="1.5" PointX="7.5" PointY="5.375" IsExpanded="true" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_Zaliha_Knjiga" ManuallyRouted="false" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_Korisnik_Uloga" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.BrojDokumenta" Width="1.5" PointX="8.625" PointY="1.875" />
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.Transakcija" Width="1.5" PointX="5.875" PointY="1.25" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_BrojDokumenta_Transakcija" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Knjiga" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Korisnik" />
+        <EntityTypeShape EntityType="ModelSveucilisnaKnjiznica.Transakcija_Audit" Width="1.5" PointX="8.125" PointY="8.5" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija" />
+        <AssociationConnector Association="ModelSveucilisnaKnjiznica.FK_Transakcija_Audit_Transakcija_Audit" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

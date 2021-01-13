@@ -1,4 +1,4 @@
-# SVEUCILISNA-KNJIZNICA (web-app)
+# sveucilisna-knjiznica (web-app)
 Sustav za Sveučilišnu knjižnicu u Puli
 
 ### Autori (2019./2020.)
